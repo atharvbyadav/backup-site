@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atharv Yadav | Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- AOS Animate On Scroll CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* bg-gray-900 equivalent */
+            color: #e2e8f0; /* text-gray-200 equivalent */
+            line-height: 1.6;
+        }
+
+        /* Custom styles for animations and specific elements not covered by Tailwind */
+        .section-padding {
+            padding: 4rem 1rem;
+        }
+        @media (min-width: 768px) {
+            .section-padding {
+                padding: 6rem 4rem;
+            }
+        }
+        @media (min-width: 1024px) {
+            .section-padding {
+                padding: 8rem 8rem;
+            }
+        }
+
+        .card-hover-effect {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover-effect:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Darker shadow for dark theme */
+        }
+
+        .btn-primary {
+            @apply inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300 ease-in-out;
+        }
+
+        .btn-secondary {
+            @apply inline-flex items-center px-6 py-3 border border-indigo-400 text-base font-medium rounded-lg text-indigo-300 bg-transparent hover:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300 ease-in-out;
+        }
+        .btn-secondary.hero-btn { /* Specific style for hero section secondary button */
+            @apply text-white border-white hover:bg-white hover:text-indigo-600;
+        }
+
+        /* Nav link hover effect */
+        .nav-link {
+            position: relative;
+            text-decoration: none;
+            color: inherit;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin-top: 5px;
+            right: 0;
+            background: #818cf8; /* Tailwind indigo-400 */
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+            background: #818cf8;
+        }
+        .nav-link.active::after {
+            width: 100%;
+            left: 0;
+            background: #818cf8;
+        }
+
+        /* Navbar on scroll shadow and background with blur */
+        .navbar-scrolled {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            background-color: rgba(45, 55, 72, 0.9); /* Slightly darker with transparency */
+            backdrop-filter: blur(8px); /* Add a subtle blur effect */
+        }
+
+        /* Mobile menu specific styles */
+        .mobile-menu {
+            display: none; /* Hidden by default */
+            transition: transform 0.3s ease-in-out;
+            background-color: #2d3748; /* Darker grey for mobile menu */
+        }
+        .mobile-menu.open {
+            display: block;
+            transform: translateX(0);
+        }
+
+        .project-link-icon {
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .project-card:hover .project-link-icon {
+            opacity: 1;
+        }
+
+        /* Dark mode for code snippets in documentation */
+        pre {
+            background-color: #1a202c; /* Darker background for code */
+            color: #f7fafc; /* Lighter text for code */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+        }
+        code {
+            background-color: #2d3748; /* Darker background for inline code */
+            color: #e2e8f0;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.3rem;
+            font-family: 'Fira Code', 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+        }
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+        }
+
+        /* Featured Project Card Specifics */
+        .featured-project-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem; /* rounded-xl */
+            background-color: #2d3748; /* Darker background for featured cards */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            flex-shrink: 0; /* Prevent cards from shrinking in a flex container */
+            /* Responsive widths - allows more than 3 to be seen if screen is wide enough */
+            min-width: 300px; /* Minimum width for cards */
+            width: calc(33.333% - 1.333rem); /* Attempt to show ~3 cards with gap on larger screens */
+            max-width: 400px; /* Cap maximum width for very large screens */
+        }
+        @media (max-width: 767px) { /* Adjust for mobile screens */
+            .featured-project-card {
+                width: 90vw; /* Wider cards on smaller screens */
+                min-width: unset; /* Remove min-width for mobile */
+            }
+        }
+
+        .featured-project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .featured-project-card .project-image-placeholder {
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            background-color: #4338ca; /* Darker indigo for placeholder */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #a5b4fc; /* light indigo text */
+            font-weight: 600;
+            position: relative; /* Crucial for absolute positioning of overlay child */
+            background-size: cover;
+            background-position: center;
+        }
+        /* Specific placeholders for better visual distinction */
+        #fp-reconx .project-image-placeholder { background-image: url('https://placehold.co/600x337/312e81/a5b4fc?text=ReconX+Scan'); }
+        #fp-darkstore .project-image-placeholder { background-image: url('https://placehold.co/600x337/4f46e5/c7d2fe?text=Dark+Store+Analysis'); }
+        #fp-hashgate .project-image-placeholder { background-image: url('https://placehold.co/600x337/6366f1/e0e7ff?text=HashGate'); }
+        #fp-guessmaster .project-image-placeholder { background-image: url('https://placehold.co/600x337/5a67d8/a5b4fc?text=GuessMaster'); }
+        #fp-portfolio .project-image-placeholder { background-image: url('https://placehold.co/600x337/4f46e5/c7d2fe?text=Portfolio'); }
+        #fp-wsl .project-image-placeholder { background-image: url('https://placehold.co/600x337/312e81/a5b4fc?text=Mastering+WSL'); }
+        #fp-gitgithub .project-image-placeholder { background-image: url('https://placehold.co/600x337/6366f1/e0e7ff?text=Git+%26+GitHub'); }
+        #fp-ghostpath .project-image-placeholder { background-image: url('https://placehold.co/600x337/5a67d8/a5b4fc?text=GhostPath'); }
+        #fp-expensemater .project-image-placeholder { background-image: url('https://placehold.co/600x337/4f46e5/c7d2fe?text=ExpenseMate'); }
+
+        .featured-project-card .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background-color: rgba(49, 46, 129, 0.95);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease-in-out;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .featured-project-card:hover .project-overlay {
+            transform: translateY(0);
+        }
+        .featured-project-card .project-overlay a {
+            text-decoration: none;
+            color: white;
+            border: 1px solid white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .featured-project-card .project-overlay a:hover {
+            background-color: white;
+            color: #4f46e5;
+        }
+
+        /* About Section image specific styles */
+        .profile-image-container {
+            position: relative;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #4f46e5;
+            box-shadow: 0 0 0 8px rgba(79, 70, 229, 0.3);
+            transition: transform 0.3s ease;
+        }
+        .profile-image-container:hover {
+            transform: scale(1.05);
+        }
+
+        /* Skills section styles - NEW DESIGN REFINED */
+        .skill-category-card {
+            background: linear-gradient(145deg, #2d3748, #222c3d);
+            border-radius: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-height: 120px;
+            padding: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+        }
+
+        .skill-category-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 1rem;
+            padding: 2px;
+            background: linear-gradient(45deg, #4e80f0, #9370DB);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            pointer-events: none;
+        }
+
+        .skill-category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(78, 128, 240, 0.4);
+            height: auto;
+            min-height: 250px;
+        }
+
+        .skill-category-card:hover::before {
+            opacity: 1;
+        }
+
+        .skill-icon-wrapper {
+            background: rgba(78, 128, 240, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            margin-bottom: 1rem;
+            flex-shrink: 0;
+        }
+
+        .skill-category-title {
+            color: #ffffff;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .skill-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, opacity 0.4s ease-out;
+            margin-top: 0;
+        }
+
+        .skill-category-card:hover .skill-list {
+            max-height: 500px;
+            opacity: 1;
+            padding-top: 0;
+            padding-bottom: 0;
+            padding-left: 0;
+            padding-right: 0;
+            margin-top: 0.75rem;
+        }
+
+        .skill-list li {
+            @apply text-gray-300 flex items-center mb-2;
+            font-size: 0.95rem;
+        }
+        .skill-list li:last-child {
+            margin-bottom: 0;
+        }
+        .skill-list li::before {
+            content: '•';
+            color: #4e80f0;
+            font-size: 1.2em;
+            line-height: 1;
+            margin-right: 0.5rem;
+        }
+
+        /* Certifications & Achievements card style */
+        .cert-card {
+            @apply bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 hover:border-indigo-600 transition duration-300;
+        }
+
+        /* Soft Skills card style */
+        .soft-skill-item {
+            @apply flex items-start mb-2;
+        }
+        .soft-skill-icon {
+            @apply w-5 h-5 text-indigo-400 mr-2 flex-shrink-0;
+        }
+        .soft-skill-text {
+            @apply text-gray-300;
+        }
+
+        /* Blog post card for documentation */
+        .blog-post-card a {
+            @apply block bg-gray-800 p-8 rounded-lg shadow-md card-hover-effect relative group;
+            text-decoration: none;
+            color: inherit;
+        }
+        .blog-post-card a:hover .project-link-icon {
+            opacity: 1;
+        }
+
+        /* Horizontal scroll container for projects */
+        .horizontal-scroll-container {
+            display: flex;
+            overflow-x: scroll; /* Enable horizontal scrolling */
+            scroll-behavior: smooth; /* Smooth scrolling animation */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            padding-bottom: 1.5rem; /* Space for potential scroll bar if it appears on some systems */
+            gap: 2rem; /* Spacing between cards */
+            padding-left: 1rem; /* Padding at the start */
+            padding-right: 1rem; /* Padding at the end */
+            width: 100%; /* Fit to screen width */
+            margin-left: 0; /* Remove auto-margins to ensure full width usage */
+            margin-right: 0;
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        .horizontal-scroll-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        /* Button for "Explore My Full Portfolio" */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .explore-portfolio-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2.5rem;
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 600; /* font-semibold */
+            border-radius: 9999px; /* full rounded */
+            color: #e0e7ff; /* text-indigo-100 equivalent for base text */
+            background: linear-gradient(to right, #4f46e5, #8b5cf6); /* Indigo-600 to Purple-500 */
+            box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4); /* Glow effect */
+            overflow: hidden;
+            transition: all 0.3s ease-in-out, background-position 0s; /* Add background-position 0s to avoid conflict */
+            text-decoration: none; /* Remove underline */
+            cursor: pointer;
+        }
+
+        .explore-portfolio-btn:hover {
+            transform: translateY(-3px); /* Lift effect */
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.6); /* Enhanced glow */
+            color: white; /* Ensure text is white on hover for better contrast */
+        }
+
+        .explore-portfolio-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%; /* Wider shimmer */
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: skewX(-30deg); /* Angle for shimmer */
+            transition: none; /* No transition for background-position to allow animation */
+            animation: none; /* Reset animation on normal state */
+        }
+
+        .explore-portfolio-btn:hover::before {
+            animation: shimmer 1.5s infinite linear; /* Apply shimmer animation on hover */
+        }
+
+        .explore-portfolio-btn .icon {
+            margin-left: 0.75rem; /* Space for icon */
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .explore-portfolio-btn:hover .icon {
+            transform: translateX(5px); /* Arrow moves right on hover */
+        }
+
+        /* Specific style for the span inside the button to ensure text is visible above shimmer */
+        .explore-portfolio-btn span {
+            position: relative;
+            z-index: 1; /* Ensure text and icon are above the pseudo-element shimmer */
+            display: flex;
+            align-items: center;
+        }
+
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200">
+
+    <!-- Navbar -->
+    <header id="navbar" class="fixed w-full z-50 bg-gray-800 py-4 px-4 md:px-8 transition-all duration-300 ease-in-out">
+        <nav class="container mx-auto flex justify-between items-center">
+            <a href="#hero" class="text-2xl font-bold text-indigo-400">Atharv Yadav</a>
+            <div class="hidden md:flex space-x-8">
+                <a href="#about" class="nav-link text-lg font-medium text-gray-300 hover:text-indigo-400">About</a>
+                <a href="#skills" class="nav-link text-lg font-medium text-gray-300 hover:text-indigo-400">Skills</a>
+                <a href="#projects" class="nav-link text-lg font-medium text-gray-300 hover:text-indigo-400">Projects</a>
+                <a href="#certifications" class="nav-link text-lg font-medium text-gray-300 hover:text-indigo-400">Certifications</a>
+                <a href="#documentation" class="nav-link text-lg font-medium text-gray-300 hover:text-indigo-400">Documentation</a>
+                <a href="#contact" class="nav-link text-lg font-medium text-gray-300 hover:text-indigo-400">Contact</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-300 focus:outline-none">
+                <i data-lucide="menu" class="w-8 h-8"></i>
+            </button>
+        </nav>
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="mobile-menu fixed inset-0 z-40 transform -translate-x-full md:hidden">
+            <div class="flex justify-end p-6">
+                <button id="close-mobile-menu" class="text-gray-300 focus:outline-none">
+                    <i data-lucide="x" class="w-8 h-8"></i>
+                </button>
+            </div>
+            <nav class="flex flex-col items-center space-y-6 text-xl font-medium">
+                <a href="#about" class="nav-link text-gray-200 hover:text-indigo-400" onclick="document.getElementById('mobile-menu').classList.remove('open');">About</a>
+                <a href="#skills" class="nav-link text-gray-200 hover:text-indigo-400" onclick="document.getElementById('mobile-menu').classList.remove('open');">Skills</a>
+                <a href="#projects" class="nav-link text-gray-200 hover:text-indigo-400" onclick="document.getElementById('mobile-menu').classList.remove('open');">Projects</a>
+                <a href="#certifications" class="nav-link text-gray-200 hover:text-indigo-400" onclick="document.getElementById('mobile-menu').classList.remove('open');">Certifications</a>
+                <a href="#documentation" class="nav-link text-gray-200 hover:text-indigo-400" onclick="document.getElementById('mobile-menu').classList.remove('open');">Documentation</a>
+                <a href="#contact" class="nav-link text-gray-200 hover:text-indigo-400" onclick="document.getElementById('mobile-menu').classList.remove('open');">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section (Updated) -->
+        <section id="hero" class="relative bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-900 text-white min-h-screen flex items-center justify-center text-center p-4">
+            <div class="container mx-auto px-4 py-24 z-10" data-aos="fade-up" data-aos-duration="1000">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-4 tracking-tight">
+                    <span class="text-indigo-400">Atharv</span> Yadav
+                </h1>
+                <p class="text-xl sm:text-2xl md:text-3xl font-light mb-8 max-w-4xl mx-auto text-gray-300">
+                    Passionate <span class="font-semibold text-indigo-200">Frontend Developer, C++ Programmer, and Cybersecurity Enthusiast</span>.
+                    Building secure, intelligent, and scalable solutions.
+                </p>
+                <div class="flex justify-center space-x-4 mb-10">
+                    <a href="https://github.com/atharvbyadav" target="_blank" class="btn-primary">
+                        <i data-lucide="github" class="w-5 h-5 mr-2"></i> GitHub
+                    </a>
+                    <a href="https://www.linkedin.com/in/atharvbyadav" target="_blank" class="btn-secondary hero-btn">
+                        <i data-lucide="linkedin" class="w-5 h-5 mr-2"></i> LinkedIn
+                    </a>
+                </div>
+                <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+                    <a href="#about" class="block">
+                        <i data-lucide="chevrons-down" class="w-10 h-10 text-indigo-300"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section (Redesigned) -->
+        <section id="about" class="section-padding bg-gray-900">
+            <div class="container mx-auto max-w-5xl">
+                <h2 class="text-4xl font-bold text-center mb-16 text-gray-100" data-aos="fade-up">About Me</h2>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+                    <div class="flex flex-col items-center lg:items-start text-center lg:text-left" data-aos="fade-right" data-aos-delay="200">
+                        <div class="profile-image-container w-64 h-64 bg-gray-700 rounded-full flex items-center justify-center overflow-hidden shadow-xl mb-8">
+                            <!-- Placeholder for your profile image - replace with your actual image path -->
+                            <img src="https://placehold.co/256x256/333333/E0E0E0?text=Atharv" alt="Atharv Yadav Profile" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-3xl font-bold text-indigo-400 mb-4">Atharv Yadav</h3>
+                        <p class="text-lg text-gray-300 leading-relaxed mb-6">
+                            Building secure, intelligent, and scalable solutions in <span class="font-semibold text-indigo-300">Application Development, Cybersecurity and Cloud.</span>
+                        </p>
+                        <p class="text-gray-400 text-sm italic mb-4">
+                            C++ :: Ethical Hacking :: Web & Cloud Dev :: Git and GitHub :: WordPress
+                        </p>
+                        <a href="https://atharvbyadav.github.io/" target="_blank" class="btn-secondary">
+                            View Old Portfolio <i data-lucide="external-link" class="w-4 h-4 ml-2"></i>
+                        </a>
+                    </div>
+
+                    <div class="space-y-10" data-aos="fade-left" data-aos-delay="300">
+                        <div>
+                            <h3 class="text-2xl font-semibold text-indigo-400 mb-4">Objective</h3>
+                            <p class="text-gray-300 leading-relaxed">
+                                Eager to contribute innovative solutions leveraging expertise in **web development, C++, security, cloud computing (AWS), and ethical hacking**. Strong problem-solving skills, adaptability, and leadership experience in various tech projects, hackathons, and research initiatives.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-semibold text-indigo-400 mb-4">Education</h3>
+                            <div class="bg-gray-800 p-6 rounded-lg shadow-md">
+                                <h4 class="text-xl font-semibold text-gray-200">Ajeenkya DY Patil University, Pune</h4>
+                                <p class="text-lg text-gray-400">Bachelor of Technology (B.Tech) in Cloud Technology and Information Security</p>
+                                <p class="text-gray-500 italic">Expected Graduation: 2026</p>
+                                <p class="text-gray-300 mt-2">Relevant Courses: Data Structures & Algorithms, Operating Systems, Cryptography, Cloud Computing, Ethical Hacking, Data Science, Networking</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section (Hover-based Expansion) -->
+        <section id="skills" class="section-padding bg-gray-800">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-bold text-center mb-12 text-gray-100" data-aos="fade-up">Technical Skills</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <!-- Programming Languages -->
+                    <div class="skill-category-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="skill-icon-wrapper">
+                            <i data-lucide="chevrons-right"></i>
+                        </div>
+                        <h3 class="skill-category-title">Programming Languages</h3>
+                        <ul class="skill-list">
+                            <li>C</li>
+                            <li>C++</li>
+                            <li>Python</li>
+                            <li>JavaScript</li>
+                            <li>PHP</li>
+                        </ul>
+                    </div>
+                    <!-- Web Development -->
+                    <div class="skill-category-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="skill-icon-wrapper">
+                            <i data-lucide="monitor"></i>
+                        </div>
+                        <h3 class="skill-category-title">Web Development</h3>
+                        <ul class="skill-list">
+                            <li>HTML</li>
+                            <li>CSS</li>
+                            <li>JavaScript</li>
+                            <li>React.js</li>
+                            <li>Bootstrap</li>
+                            <li>Flask</li>
+                        </ul>
+                    </div>
+                    <!-- Cybersecurity & Networking -->
+                    <div class="skill-category-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="skill-icon-wrapper">
+                            <i data-lucide="shield"></i>
+                        </div>
+                        <h3 class="skill-category-title">Cybersecurity & Networking</h3>
+                        <ul class="skill-list">
+                            <li>Network Security</li>
+                            <li>Ethical Hacking</li>
+                            <li>Kali Linux</li>
+                            <li>Penetration Testing</li>
+                            <li>Cryptography</li>
+                        </ul>
+                    </div>
+                    <!-- Cloud Computing -->
+                    <div class="skill-category-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="skill-icon-wrapper">
+                            <i data-lucide="cloud"></i>
+                        </div>
+                        <h3 class="skill-category-title">Cloud Computing</h3>
+                        <ul class="skill-list">
+                            <li>AWS Lambda</li>
+                            <li>AWS S3</li>
+                            <li>AWS EC2</li>
+                            <li>AWS IAM</li>
+                            <li>AWS SNS & SQS</li>
+                        </ul>
+                    </div>
+                    <!-- DevOps & Version Control -->
+                    <div class="skill-category-card" data-aos="fade-up" data-aos-delay="500">
+                        <div class="skill-icon-wrapper">
+                            <i data-lucide="git-fork"></i>
+                        </div>
+                        <h3 class="skill-category-title">DevOps & Version Control</h3>
+                        <ul class="skill-list">
+                            <li>Git</li>
+                            <li>GitHub</li>
+                            <li>GitHub Actions</li>
+                            <li>CI/CD Pipelines</li>
+                        </ul>
+                    </div>
+                    <!-- Data Science & ML -->
+                    <div class="skill-category-card" data-aos="fade-up" data-aos-delay="600">
+                        <div class="skill-icon-wrapper">
+                            <i data-lucide="bar-chart-2"></i>
+                        </div>
+                        <h3 class="skill-category-title">Data Science & ML</h3>
+                        <ul class="skill-list">
+                            <li>Pandas</li>
+                            <li>NumPy</li>
+                            <li>Scikit-learn</li>
+                            <li>Matplotlib</li>
+                            <li>Streamlit</li>
+                        </ul>
+                    </div>
+                    <!-- Networking Tools -->
+                    <div class="skill-category-card" data-aos="fade-up" data-aos-delay="800">
+                        <div class="skill-icon-wrapper">
+                            <i data-lucide="network"></i> <!-- Changed icon to 'network' -->
+                        </div>
+                        <h3 class="skill-category-title">Networking Tools</h3>
+                        <ul class="skill-list">
+                            <li>Metasploit</li>
+                            <li>Wireshark</li>
+                            <li>Nmap</li>
+                            <li>Scapy</li>
+                        </ul>
+                    </div>
+                     <!-- General Utilities -->
+                     <div class="skill-category-card" data-aos="fade-up" data-aos-delay="900">
+                        <div class="skill-icon-wrapper">
+                            <i data-lucide="settings"></i> <!-- Using 'settings' for general utilities -->
+                        </div>
+                        <h3 class="skill-category-title">General Utilities</h3>
+                        <ul class="skill-list">
+                            <li>Google Colab</li>
+                            <li>SFML</li>
+                            <li>Docker</li>
+                            <li>Postman</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section-padding bg-gray-900">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-bold text-center mb-4 text-gray-100" data-aos="fade-up">My Creative Canvas</h2>
+                <p class="text-center text-lg text-indigo-300 mb-10 font-medium" data-aos="fade-up" data-aos-delay="100">
+                    Journey through a curated collection of my most impactful projects.
+                </p>
+
+                <!-- Horizontal Scroll Container -->
+                <div id="projects-scroll-container" class="horizontal-scroll-container px-4">
+                    <!-- Project Card: ReconX Scan -->
+                    <div id="fp-reconx" class="featured-project-card">
+                        <div class="project-image-placeholder">
+                            <div class="project-overlay">
+                                <h4 class="text-2xl font-bold mb-4">ReconX Scan</h4>
+                                <p class="text-sm mb-6">Network Security Toolkit</p>
+                                <a href="https://github.com/atharvbyadav/ReconX" target="_blank" class="flex items-center space-x-2">
+                                    <i data-lucide="github" class="w-5 h-5"></i>
+                                    <span>View Project</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-semibold text-indigo-400 mb-2">ReconX Scan – Network Security Toolkit</h4>
+                            <p class="text-gray-300 text-sm">A Streamlit-based cybersecurity toolkit for penetration testers and security analysts.</p>
+                            <p class="text-xs text-gray-400 mt-2">Tech Stack: Python, Streamlit, Nmap, Scapy, Sockets, Threading</p>
+                        </div>
+                    </div>
+
+                    <!-- Project Card: Dark Store Feasibility Analysis -->
+                    <div id="fp-darkstore" class="featured-project-card">
+                        <div class="project-image-placeholder">
+                            <div class="project-overlay">
+                                <h4 class="text-2xl font-bold mb-4">Dark Store Analysis</h4>
+                                <p class="text-sm mb-6">ML-Powered Location Prediction</p>
+                                <a href="https://github.com/atharvbyadav/Dark-Store-Feasibility-Analysis" target="_blank" class="flex items-center space-x-2">
+                                    <i data-lucide="github" class="w-5 h-5"></i>
+                                    <span>View Project</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-semibold text-indigo-400 mb-2">Dark Store Feasibility Analysis – ML-Powered Location Prediction</h4>
+                            <p class="text-gray-300 text-sm">A Machine Learning-driven solution for identifying optimal dark store locations.</p>
+                            <p class="text-xs text-gray-400 mt-2">Tech Stack: Python, Streamlit, Pandas, Scikit-learn, Plotly, Google Colab, Folium.</p>
+                        </div>
+                    </div>
+
+                    <!-- Project Card: HashGate – Secure Authentication System -->
+                    <div id="fp-hashgate" class="featured-project-card">
+                        <div class="project-image-placeholder">
+                            <div class="project-overlay">
+                                <h4 class="text-2xl font-bold mb-4">HashGate</h4>
+                                <p class="text-sm mb-6">Secure Authentication System</p>
+                                <a href="https://github.com/atharvbyadav/HashGate" target="_blank" class="flex items-center space-x-2">
+                                    <i data-lucide="github" class="w-5 h-5"></i>
+                                    <span>View Project</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-semibold text-indigo-400 mb-2">HashGate – Secure Authentication System</h4>
+                            <p class="text-gray-300 text-sm">A Python-based authentication system that implements secure password hashing and user management.</p>
+                            <p class="text-xs text-gray-400 mt-2">Tech Stack: Python, Hashlib, JSON, File I/O</p>
+                        </div>
+                    </div>
+
+                    <!-- Project Card: GuessMaster – C++ Number Guessing Game -->
+                    <div id="fp-guessmaster" class="featured-project-card">
+                        <div class="project-image-placeholder">
+                            <div class="project-overlay">
+                                <h4 class="text-2xl font-bold mb-4">GuessMaster</h4>
+                                <p class="text-sm mb-6">C++ Number Guessing Game</p>
+                                <a href="https://github.com/atharvbyadav/GuessMaster" target="_blank" class="flex items-center space-x-2">
+                                    <i data-lucide="github" class="w-5 h-5"></i>
+                                    <span>View Project</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-semibold text-indigo-400 mb-2">GuessMaster – C++ Number Guessing Game</h4>
+                            <p class="text-gray-300 text-sm">A SFML-powered GUI game where players guess a secret number with real-time feedback and score tracking.</p>
+                            <p class="text-xs text-gray-400 mt-2">Tech Stack: C++, SFML (Simple and Fast Multimedia Library)</p>
+                        </div>
+                    </div>
+
+                     <!-- Project Card: Personal Portfolio Website -->
+                     <div id="fp-portfolio" class="featured-project-card">
+                        <div class="project-image-placeholder">
+                            <div class="project-overlay">
+                                <h4 class="text-2xl font-bold mb-4">Personal Portfolio</h4>
+                                <p class="text-sm mb-6">Responsive Website</p>
+                                <a href="https://github.com/atharvbyadav/Portfolio" target="_blank" class="flex items-center space-x-2">
+                                    <i data-lucide="github" class="w-5 h-5"></i>
+                                    <span>View Project</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-semibold text-indigo-400 mb-2">Personal Portfolio Website</h4>
+                            <p class="text-gray-300 text-sm">A responsive, sleek personal portfolio website that showcases my skills, projects, and contact information.</p>
+                            <p class="text-xs text-gray-400 mt-2">Tech Used: HTML, CSS, JavaScript</p>
+                        </div>
+                    </div>
+
+                    <!-- Project Card: Mastering WSL Guide -->
+                    <div id="fp-wsl" class="featured-project-card">
+                        <div class="project-image-placeholder">
+                            <div class="project-overlay">
+                                <h4 class="text-2xl font-bold mb-4">Mastering WSL Guide</h4>
+                                <p class="text-sm mb-6">Comprehensive Guide</p>
+                                <a href="https://github.com/atharvbyadav/Mastering-WSL" target="_blank" class="flex items-center space-x-2">
+                                    <i data-lucide="github" class="w-5 h-5"></i>
+                                    <span>View Project</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-semibold text-indigo-400 mb-2">Mastering WSL Guide</h4>
+                            <p class="text-gray-300 text-sm">A comprehensive guide on WSL (Windows Subsystem for Linux) with practical tips and setup instructions.</p>
+                            <p class="text-xs text-gray-400 mt-2">Hosted on GitHub Pages.</p>
+                        </div>
+                    </div>
+
+                    <!-- Project Card: Git & GitHub Guide -->
+                    <div id="fp-gitgithub" class="featured-project-card">
+                        <div class="project-image-placeholder">
+                            <div class="project-overlay">
+                                <h4 class="text-2xl font-bold mb-4">Git & GitHub Guide</h4>
+                                <p class="text-sm mb-6">Detailed Version Control Guide</p>
+                                <a href="https://github.com/atharvbyadav/Git-GitHub" target="_blank" class="flex items-center space-x-2">
+                                    <i data-lucide="github" class="w-5 h-5"></i>
+                                    <span>View Project</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-semibold text-indigo-400 mb-2">Git & GitHub Guide</h4>
+                            <p class="text-gray-300 text-sm">A detailed guide for mastering Git and GitHub with examples, commands, and best practices.</p>
+                            <p class="text-xs text-gray-400 mt-2">Hosted on GitHub Pages.</p>
+                        </div>
+                    </div>
+
+                    <!-- Project Card: GhostPath – Historical URL Discovery Tool -->
+                    <div id="fp-ghostpath" class="featured-project-card">
+                        <div class="project-image-placeholder">
+                            <div class="project-overlay">
+                                <h4 class="text-2xl font-bold mb-4">GhostPath</h4>
+                                <p class="text-sm mb-6">Historical URL Discovery Tool</p>
+                                <a href="https://github.com/atharvbyadav/GhostPath" target="_blank" class="flex items-center space-x-2">
+                                    <i data-lucide="github" class="w-5 h-5"></i>
+                                    <span>View Project</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-semibold text-indigo-400 mb-2">GhostPath – Historical URL Discovery Tool</h4>
+                            <p class="text-gray-300 text-sm">A Python-based terminal tool for discovering historical URLs using open-source intelligence techniques.</p>
+                            <p class="text-xs text-gray-400 mt-2">Tech Stack: Python, Requests, Threading, JSON, Public APIs</p>
+                        </div>
+                    </div>
+
+                    <!-- Project Card: ExpenseMate – Personal Expense Tracker -->
+                    <div id="fp-expensemater" class="featured-project-card">
+                        <div class="project-image-placeholder">
+                            <div class="project-overlay">
+                                <h4 class="text-2xl font-bold mb-4">ExpenseMate</h4>
+                                <p class="text-sm mb-6">Personal Expense Tracker</p>
+                                <a href="https://github.com/atharvbyadav/ExpenseMate" target="_blank" class="flex items-center space-x-2">
+                                    <i data-lucide="github" class="w-5 h-5"></i>
+                                    <span>View Project</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-semibold text-indigo-400 mb-2">ExpenseMate – Personal Expense Tracker</h4>
+                            <p class="text-gray-300 text-sm">A Streamlit-based web app to effortlessly track, categorize, and visualize personal expenses.</p>
+                            <p class="text-xs text-gray-400 mt-2">Tech Stack: Python, Streamlit, Pandas, Matplotlib, Firebase</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-12" data-aos="fade-up" data-aos-delay="300">
+                    <a href="projects.html" class="explore-portfolio-btn">
+                        <span>Explore My Full Portfolio <i data-lucide="arrow-right" class="icon"></i></span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certifications & Achievements Section -->
+        <section id="certifications" class="section-padding bg-gray-800">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-bold text-center mb-12 text-gray-100" data-aos="fade-up">Certifications & Achievements</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="cert-card" data-aos="fade-up" data-aos-delay="100">
+                        <h3 class="text-xl font-semibold text-indigo-400 mb-2">The Best Ethical Hacker Award</h3>
+                        <p class="text-gray-400 text-sm mb-2">Seamedu Awards 2025 – April 2025</p>
+                        <p class="text-gray-300">Recognized for capturing the flag by successfully exploiting vulnerabilities in a controlled cybersecurity lab during a competitive ethical hacking event.</p>
+                    </div>
+                    <div class="cert-card" data-aos="fade-up" data-aos-delay="200">
+                        <h3 class="text-xl font-semibold text-indigo-400 mb-2">Galactic Problem Solver</h3>
+                        <p class="text-gray-400 text-sm mb-2">NASA International Space Apps Challenge – October 2023</p>
+                        <p class="text-300">Participation and Solution Challenge Certificate.</p>
+                    </div>
+                    <div class="cert-card" data-aos="fade-up" data-aos-delay="300">
+                        <h3 class="text-xl font-semibold text-indigo-400 mb-2">Cloud Security Fundamentals</h3>
+                        <p class="text-gray-400 text-sm mb-2">Palo Alto Networks — Beacon – June 2023</p>
+                        <p class="text-gray-300">Completion ID: 265006339</p>
+                    </div>
+                    <div class="cert-card" data-aos="fade-up" data-aos-delay="400">
+                        <h3 class="text-xl font-semibold text-indigo-400 mb-2">Cybersecurity Fundamentals: Practitioner</h3>
+                        <p class="text-gray-400 text-sm mb-2">Palo Alto Networks — Beacon – May 2023</p>
+                        <p class="text-gray-300">Completion ID: 258778516</p>
+                    </div>
+                    <div class="cert-card" data-aos="fade-up" data-aos-delay="500">
+                        <h3 class="text-xl font-semibold text-indigo-400 mb-2">Network Security Fundamentals</h3>
+                        <p class="text-gray-400 text-sm mb-2">Palo Alto Networks — Beacon – May 2023</p>
+                        <p class="text-gray-300">Completion ID: 260855473</p>
+                    </div>
+                    <div class="cert-card" data-aos="fade-up" data-aos-delay="600">
+                        <h3 class="text-xl font-semibold text-indigo-400 mb-2">IP Awareness/Training Program</h3>
+                        <p class="text-gray-400 text-sm mb-2">Intellectual Property Office, India – March 2023</p>
+                        <p class="text-gray-300">Under National Intellectual Property Awareness Mission.</p>
+                    </div>
+                    <div class="cert-card" data-aos="fade-up" data-aos-delay="700">
+                        <h3 class="text-xl font-semibold text-indigo-400 mb-2">AWS (Amazon Web Services)</h3>
+                        <p class="text-gray-400 text-sm mb-2">Infosys Springboard and ICT Academy – December 2022</p>
+                        <p class="text-gray-300">Efficiently deploy and manage key AWS services.</p>
+                    </div>
+                </div>
+
+                <h3 class="text-3xl font-bold text-center mt-20 mb-8 text-gray-100" data-aos="fade-up" data-aos-delay="800">Hackathons & Achievements</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="cert-card" data-aos="fade-up" data-aos-delay="900">
+                        <h4 class="text-xl font-semibold text-indigo-400 mb-2">Best Ethical Hacker Award</h4>
+                        <p class="text-gray-400 text-sm mb-2">Seamedu Awards 2025 by Seamedu India</p>
+                    </div>
+                    <div class="cert-card" data-aos="fade-up" data-aos-delay="1000">
+                        <h4 class="text-xl font-semibold text-indigo-400 mb-2">NASA International Space Apps Challenge 2024</h4>
+                        <p class="text-gray-400 text-sm mb-2">Galactic Problem Solver Award</p>
+                    </div>
+                    <div class="cert-card" data-aos="fade-up" data-aos-delay="1100">
+                        <h4 class="text-xl font-semibold text-indigo-400 mb-2">24-Hour Hackathon (Dark Store Feasibility Analysis)</h4>
+                        <p class="text-gray-300">Developed an ML-driven business intelligence tool.</p>
+                    </div>
+                    <div class="cert-card" data-aos="fade-up" data-aos-delay="1200">
+                        <h4 class="text-xl font-semibold text-indigo-400 mb-2">Seamedu Cyber Arena & College CTF Competition (March 2025)</h4>
+                        <p class="text-gray-300">Goal: Gain access to a target server, find & delete a hidden flag.</p>
+                        <p class="text-gray-300">Tools Used: Nmap, Metasploit, Wireshark, Linux Privilege Escalation.</p>
+                        <p class="text-gray-300">Skills Demonstrated: CLI-based penetration testing, fast & accurate exploitation.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Work & Leadership Experience Section -->
+        <section id="experience" class="section-padding bg-gray-900">
+            <div class="container mx-auto max-w-4xl">
+                <h2 class="text-4xl font-bold text-center mb-12 text-gray-100" data-aos="fade-up">Work & Leadership Experience</h2>
+
+                <div class="space-y-10">
+                    <div class="bg-gray-800 p-8 rounded-lg shadow-md card-hover-effect" data-aos="fade-up" data-aos-delay="100">
+                        <h3 class="text-2xl font-semibold text-indigo-400 mb-2">Delta Hunters – Security Research & Development Team <span class="text-lg font-normal text-gray-400">(Team Leader)</span></h3>
+                        <ul class="list-disc list-inside text-gray-300 space-y-2 mt-4">
+                            <li>Led security research on network vulnerabilities and ethical hacking techniques.</li>
+                            <li>Contributed to developing open-source security tools and automating reconnaissance scripts.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gray-800 p-8 rounded-lg shadow-md card-hover-effect" data-aos="fade-up" data-aos-delay="200">
+                        <h3 class="text-2xl font-semibold text-indigo-400 mb-2">Led Multiple Teams Through Projects, Competitions, and Hackathons</h3>
+                        <p class="text-gray-300 mt-4">
+                            Guided and coordinated teams to successfully complete several tech projects, hackathons, and competitions, demonstrating leadership in fast-paced environments.
+                        </p>
+                    </div>
+
+                    <div class="bg-gray-800 p-8 rounded-lg shadow-md card-hover-effect" data-aos="fade-up" data-aos-delay="300">
+                        <h3 class="text-2xl font-semibold text-indigo-400 mb-2">Freelance Web Development & GitHub Projects</h3>
+                        <p class="text-gray-300 mt-4">
+                            Maintained multiple open-source projects and technical guides on GitHub and GitHub Pages, designed to help new developers learn web development, security, and cloud automation.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Soft Skills, Languages, Interests Section (Condensed) -->
+        <section id="soft-skills" class="section-padding bg-gray-800">
+            <div class="container mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <div class="bg-gray-900 p-8 rounded-lg shadow-md card-hover-effect" data-aos="fade-up" data-aos-delay="100">
+                        <h3 class="text-xl font-semibold text-indigo-400 mb-4">Soft Skills & Personal Traits</h3>
+                        <ul class="list-none text-gray-300 space-y-2">
+                            <li class="soft-skill-item">
+                                <i data-lucide="check-circle" class="soft-skill-icon"></i>
+                                <span class="soft-skill-text">Problem-Solving: Tackling complex security & development challenges.</span>
+                            </li>
+                            <li class="soft-skill-item">
+                                <i data-lucide="check-circle" class="soft-skill-icon"></i>
+                                <span class="soft-skill-text">Leadership: Organizing projects, hackathons, and tech discussions.</span>
+                            </li>
+                            <li class="soft-skill-item">
+                                <i data-lucide="check-circle" class="soft-skill-icon"></i>
+                                <span class="soft-skill-text">Adaptability: Quickly learning & applying new technologies.</span>
+                            </li>
+                            <li class="soft-skill-item">
+                                <i data-lucide="check-circle" class="soft-skill-icon"></i>
+                                <span class="soft-skill-text">Teamwork & Collaboration: Working effectively in fast-paced environments.</span>
+                            </li>
+                            <li class="soft-skill-item">
+                                <i data-lucide="check-circle" class="soft-skill-icon"></i>
+                                <span class="soft-skill-text">Communication, Presentation, Research, Time Management.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-900 p-8 rounded-lg shadow-md card-hover-effect" data-aos="fade-up" data-aos-delay="200">
+                        <h3 class="text-xl font-semibold text-indigo-400 mb-4">Languages</h3>
+                        <ul class="list-disc list-inside text-gray-300 space-y-2">
+                            <li>English (Fluent)</li>
+                            <li>Hindi (Native)</li>
+                            <li>Marathi (Native)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-900 p-8 rounded-lg shadow-md card-hover-effect" data-aos="fade-up" data-aos-delay="300">
+                        <h3 class="text-xl font-semibold text-indigo-400 mb-4">Interests</h3>
+                        <ul class="list-disc list-inside text-gray-300 space-y-2">
+                            <li>Cybersecurity & Ethical Hacking</li>
+                            <li>Web and Application Development</li>
+                            <li>Participating in Hackathons & CTF Challenges</li>
+                            <li>Developing Open-Source Security Tools</li>
+                            <li>Machine Learning & AI Research</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Documentation Section (Blog - Now with Hyperlinks) -->
+        <section id="documentation" class="section-padding bg-gray-900">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-bold text-center mb-12 text-gray-100" data-aos="fade-up">Documentation & Blog</h2>
+                <p class="text-center text-lg text-gray-300 mb-10" data-aos="fade-up" data-aos-delay="100">
+                    Explore my technical guides and insights for beginner developers and tech enthusiasts.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <!-- Blog Post Card 1 (Hyperlink) -->
+                    <div class="blog-post-card" data-aos="fade-up" data-aos-delay="200">
+                        <a href="javascript:void(0);" target="_blank" onclick="alert('This will link to an external documentation page for Understanding Network Reconnaissance with Nmap.')">
+                            <h3 class="text-2xl font-semibold text-indigo-400 mb-3">Understanding Network Reconnaissance with Nmap</h3>
+                            <p class="text-gray-300 mb-4">A beginner's guide to using Nmap for network scanning and discovery in cybersecurity.</p>
+                            <p class="text-sm text-gray-400">Published: June 5, 2025</p>
+                            <span class="absolute top-4 right-4 text-indigo-400 group-hover:text-indigo-300 project-link-icon">
+                                <i data-lucide="external-link" class="w-6 h-6"></i>
+                            </span>
+                        </a>
+                    </div>
+
+                    <!-- Blog Post Card 2 (Hyperlink) -->
+                    <div class="blog-post-card" data-aos="fade-up" data-aos-delay="300">
+                        <a href="javascript:void(0);" target="_blank" onclick="alert('This will link to an external documentation page for Getting Started with Git & GitHub.')">
+                            <h3 class="text-2xl font-semibold text-indigo-400 mb-3">Getting Started with Git & GitHub</h3>
+                            <p class="text-gray-300 mb-4">Your first steps into version control: essential commands and best practices.</p>
+                            <p class="text-sm text-gray-400">Published: May 20, 2025</p>
+                            <span class="absolute top-4 right-4 text-indigo-400 group-hover:text-indigo-300 project-link-icon">
+                                <i data-lucide="external-link" class="w-6 h-6"></i>
+                            </span>
+                        </a>
+                    </div>
+
+                    <!-- Blog Post Card 3 (Hyperlink) -->
+                    <div class="blog-post-card" data-aos="fade-up" data-aos-delay="400">
+                        <a href="javascript:void(0);" target="_blank" onclick="alert('This will link to an external documentation page for Deploying Your First Web App on AWS EC2.')">
+                            <h3 class="text-2xl font-semibold text-indigo-400 mb-3">Deploying Your First Web App on AWS EC2</h3>
+                            <p class="text-gray-300 mb-4">A simple walkthrough to launch your web application on an AWS EC2 instance.</p>
+                            <p class="text-sm text-gray-400">Published: April 10, 2025</p>
+                            <span class="absolute top-4 right-4 text-indigo-400 group-hover:text-indigo-300 project-link-icon">
+                                <i data-lucide="external-link" class="w-6 h-6"></i>
+                            </span>
+                        </a>
+                    </div>
+                    <!-- Add more blog post cards as needed, linking to your external docs -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section (Now with a Form) -->
+        <section id="contact" class="section-padding bg-gray-800">
+            <div class="container mx-auto max-w-2xl text-center">
+                <h2 class="text-4xl font-bold text-center mb-8 text-gray-100" data-aos="fade-up">Get in Touch</h2>
+                <p class="text-lg text-gray-300 mb-10" data-aos="fade-up" data-aos-delay="100">
+                    I'm always open to new opportunities and collaborations. Feel free to reach out!
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center space-y-6 sm:space-y-0 sm:space-x-8 mb-12">
+                    <div class="flex items-center space-x-3" data-aos="fade-up" data-aos-delay="200">
+                        <i data-lucide="phone" class="w-6 h-6 text-indigo-400"></i>
+                        <span class="text-lg text-gray-300">+91 9867435842</span>
+                    </div>
+                    <div class="flex items-center space-x-3" data-aos="fade-up" data-aos-delay="300">
+                        <i data-lucide="mail" class="w-6 h-6 text-indigo-400"></i>
+                        <a href="mailto:uuwr5t1s@duck.com" class="text-lg text-gray-300 hover:text-indigo-400">uuwr5t1s@duck.com</a>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <form class="space-y-6 text-left" data-aos="fade-up" data-aos-delay="400">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Name</label>
+                        <input type="text" id="name" name="name" class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 text-gray-100 focus:ring-indigo-500 focus:border-indigo-500 placeholder-gray-400" placeholder="Your Name">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Email</label>
+                        <input type="email" id="email" name="email" class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 text-gray-100 focus:ring-indigo-500 focus:border-indigo-500 placeholder-gray-400" placeholder="your.email@example.com">
+                    </div>
+                    <div>
+                        <label for="subject" class="block text-sm font-medium text-gray-300 mb-1">Subject</label>
+                        <input type="text" id="subject" name="subject" class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 text-gray-100 focus:ring-indigo-500 focus:border-indigo-500 placeholder-gray-400" placeholder="Subject of your message">
+                    </div>
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-gray-300 mb-1">Message</label>
+                        <textarea id="message" name="message" rows="5" class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 text-gray-100 focus:ring-indigo-500 focus:border-indigo-500 placeholder-gray-400" placeholder="Your message..."></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn-primary w-full sm:w-auto">
+                            Send Message <i data-lucide="send" class="w-5 h-5 ml-2"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer (Redesigned) -->
+    <footer class="bg-gray-900 py-10 px-4">
+        <div class="container mx-auto flex flex-col items-center justify-center space-y-6">
+            <div class="text-gray-400 text-sm">
+                <span class="font-bold text-indigo-400">Atharv Yadav</span> &copy; <span id="current-year"></span>
+            </div>
+            <div class="flex space-x-6">
+                <a href="https://github.com/atharvbyadav" target="_blank" class="text-gray-400 hover:text-white transition duration-300">
+                    <i data-lucide="github" class="w-6 h-6"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/atharvbyadav" target="_blank" class="text-gray-400 hover:text-white transition duration-300">
+                    <i data-lucide="linkedin" class="w-6 h-6"></i>
+                </a>
+                <a href="mailto:uuwr5t1s@duck.com" class="text-gray-400 hover:text-white transition duration-300">
+                    <i data-lucide="mail" class="w-6 h-6"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true, // Whether animation should happen only once - while scrolling down
+            mirror: false, // Whether elements should animate out while scrolling past them
+        });
+
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Smooth Scrolling for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+
+                // Close mobile menu if open
+                if (document.getElementById('mobile-menu').classList.contains('open')) {
+                    document.getElementById('mobile-menu').classList.remove('open');
+                }
+            });
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMobileMenuActualButton = document.getElementById('close-mobile-menu');
+
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.add('open');
+        });
+
+        closeMobileMenuActualButton.addEventListener('click', () => {
+             mobileMenu.classList.remove('open');
+        });
+
+        // Navbar shadow and background change on scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) { // Add shadow and change background after scrolling 50px
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        });
+
+
+        // Highlight active nav link on scroll (Optional but nice for UX)
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100; // Offset for header height
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Infinite Scroll for Projects Section
+        const projectsScrollContainer = document.getElementById('projects-scroll-container');
+        const projects = Array.from(projectsScrollContainer.children); // Get all original project cards
+        const projectCount = projects.length;
+        const cloneCount = 3; // Number of cards to clone on each side for seamless looping
+
+        // Append clones to the beginning and end
+        function setupInfiniteScroll() {
+            // Clear existing clones if any (on resize or re-render)
+            Array.from(projectsScrollContainer.children).forEach(child => {
+                if (child.dataset.cloned) {
+                    projectsScrollContainer.removeChild(child);
+                }
+            });
+
+            // Re-fetch original projects after clearing clones
+            const originalProjects = Array.from(projectsScrollContainer.children).filter(child => !child.dataset.cloned);
+
+            // Prepend clones from the end of the original list
+            for (let i = 0; i < cloneCount; i++) {
+                const clone = originalProjects[originalProjects.length - 1 - i].cloneNode(true);
+                clone.dataset.cloned = 'true';
+                projectsScrollContainer.prepend(clone);
+            }
+
+            // Append clones from the beginning of the original list
+            for (let i = 0; i < cloneCount; i++) {
+                const clone = originalProjects[i].cloneNode(true);
+                clone.dataset.cloned = 'true';
+                projectsScrollContainer.appendChild(clone);
+            }
+
+            // Set initial scroll position to the start of the original projects
+            // This hides the prepended clones initially
+            const firstOriginalCard = projectsScrollContainer.children[cloneCount];
+            if (firstOriginalCard) {
+                projectsScrollContainer.scrollLeft = firstOriginalCard.offsetLeft - parseFloat(window.getComputedStyle(projectsScrollContainer).paddingLeft);
+            }
+        }
+
+        // Handle scroll position for infinite looping
+        projectsScrollContainer.addEventListener('scroll', () => {
+            const scrollLeft = projectsScrollContainer.scrollLeft;
+            const scrollWidth = projectsScrollContainer.scrollWidth;
+            const clientWidth = projectsScrollContainer.clientWidth;
+            const firstOriginalCard = projectsScrollContainer.children[cloneCount];
+            const lastOriginalCard = projectsScrollContainer.children[projects.length + cloneCount - 1];
+
+            // If scrolled to the end (into appended clones)
+            if (scrollLeft + clientWidth >= scrollWidth - firstOriginalCard.offsetWidth) {
+                projectsScrollContainer.scrollLeft = firstOriginalCard.offsetLeft - parseFloat(window.getComputedStyle(projectsScrollContainer).paddingLeft);
+            }
+            // If scrolled to the beginning (into prepended clones)
+            else if (scrollLeft <= 0) {
+                projectsScrollContainer.scrollLeft = lastOriginalCard.offsetLeft - parseFloat(window.getComputedStyle(projectsScrollContainer).paddingLeft);
+            }
+        });
+
+        // Initialize infinite scroll on load and resize
+        window.addEventListener('load', setupInfiniteScroll);
+        window.addEventListener('resize', setupInfiniteScroll);
+
+    </script>
+</body>
+</html>
