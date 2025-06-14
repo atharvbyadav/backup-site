@@ -24,16 +24,16 @@
 
         /* Custom styles for animations and specific elements not covered by Tailwind */
         .section-padding {
-            padding: 4rem 1rem;
+            padding: 4rem 1rem; /* Default for mobile */
         }
         @media (min-width: 768px) {
             .section-padding {
-                padding: 6rem 4rem;
+                padding: 6rem 4rem; /* Medium screens */
             }
         }
         @media (min-width: 1024px) {
             .section-padding {
-                padding: 8rem 8rem;
+                padding: 8rem 8rem; /* Large screens */
             }
         }
 
@@ -346,7 +346,7 @@
             width: 100%;
             text-align: left;
             padding-right: 0; /* Reset for mobile */
-            padding-left: 1rem; /* Indent for visual consistency */
+            padding-left: 0; /* No indent on mobile */
         }
 
         @media (min-width: 768px) {
@@ -695,8 +695,8 @@
                     <span class="text-indigo-400">Atharv</span> Yadav
                 </h1>
                 <p class="text-xl sm:text-2xl md:text-3xl font-light mb-8 max-w-4xl mx-auto text-gray-300">
-                    Passionate <span class="font-semibold text-indigo-200">Frontend Developer, C++ Programmer, and Cybersecurity Enthusiast</span>.
-                    Building secure, intelligent, and scalable solutions.
+                    Passionate <span class="font-semibold text-indigo-200">Frontend Developer, C++ Programmer and Cybersecurity Enthusiast</span>.
+                    Building secure, intelligent and scalable solutions.
                 </p>
                 <div class="flex justify-center space-x-4 mb-10">
                     <a href="https://github.com/atharvbyadav" target="_blank" class="btn-primary">
@@ -721,7 +721,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
                     <div class="flex flex-col items-center lg:items-start text-center lg:text-left" data-aos="fade-right" data-aos-delay="200">
                         <div class="profile-image-container w-64 h-64 bg-gray-700 rounded-full flex items-center justify-center overflow-hidden shadow-xl mb-8">
-                            <img src="assets/pp1.jpg" alt="Atharv Yadav Profile" class="w-full h-full object-cover">
+                            <img src="pp1.jpg" alt="Atharv Yadav Profile" class="w-full h-full object-cover">
                         </div>
                         <h3 class="text-3xl font-bold text-indigo-400 mb-4">Atharv Yadav</h3>
                         <p class="text-lg text-gray-300 leading-relaxed mb-6">
@@ -730,7 +730,7 @@
                         <p class="text-gray-400 text-sm italic mb-4">
                             C++ :: Ethical Hacking :: Web & Cloud Dev :: Git and GitHub :: WordPress
                         </p>
-                        <a href="https://atharvbyadav.github.io/backup/" target="_blank" class="btn-secondary">
+                        <a href="https://atharvbyadav.github.io/backup-site/" target="_blank" class="btn-secondary">
                             View Old Portfolio <i data-lucide="external-link" class="w-4 h-4 ml-2"></i>
                         </a>
                     </div>
@@ -739,7 +739,7 @@
                         <div>
                             <h3 class="text-2xl font-semibold text-indigo-400 mb-4">Objective</h3>
                             <p class="text-gray-300 leading-relaxed">
-                                Eager to contribute innovative solutions leveraging expertise in **web development, C++, security, cloud computing (AWS), and ethical hacking**. Strong problem-solving skills, adaptability, and leadership experience in various tech projects, hackathons, and research initiatives.
+                                Eager to contribute innovative solutions leveraging expertise in <strong>web development, C++, security, cloud computing (AWS) and ethical hacking</strong>. Strong problem-solving skills, adaptability and leadership experience in various tech projects, hackathons and research initiatives.
                             </p>
                         </div>
                         <div>
@@ -876,9 +876,9 @@
                     <div id="fp-reconx" class="featured-project-card" data-aos="fade-up" data-aos-delay="200">
                         <div class="project-image-placeholder">
                             <div class="project-overlay">
-                                <h4 class="text-2xl font-bold mb-4">ReconX Scan</h4>
+                                <h4 class="text-2xl font-bold mb-4">ReconX</h4>
                                 <p class="text-sm mb-6">Network Security Toolkit</p>
-                                <a href="https://atharvbyadav.github.io/ReconX/" target="_blank" class="flex items-center space-x-2">
+                                <a href="https://github.com/atharvbyadav/ReconX" target="_blank" class="flex items-center space-x-2">
                                     <i data-lucide="github" class="w-5 h-5"></i>
                                     <span>View Project</span>
                                 </a>
@@ -914,7 +914,7 @@
                             <div class="project-overlay">
                                 <h4 class="text-2xl font-bold mb-4">HashGate</h4>
                                 <p class="text-sm mb-6">Secure Authentication System</p>
-                                <a href="https://github.com/atharvbyadav/HashGate-Authentication-System/" target="_blank" class="flex items-center space-x-2">
+                                <a href="https://github.com/atharvbyadav/HashGate" target="_blank" class="flex items-center space-x-2">
                                     <i data-lucide="github" class="w-5 h-5"></i>
                                     <span>View Project</span>
                                 </a>
@@ -926,7 +926,7 @@
                             <p class="text-xs text-gray-400 mt-2">Tech Stack: Python, Hashlib, JSON, File I/O</p>
                         </div>
                     </div>
-                    
+
                 </div>
 
                 <div class="text-center mt-12" data-aos="fade-up" data-aos-delay="300">
@@ -994,7 +994,7 @@
                                 <div class="vertical-line"></div>
                             </div>
                             <div class="experience-description-card">
-                                <p>Maintained multiple open-source projects and technical guides on GitHub and GitHub Pages, designed to help new developers learn web development, security, and cloud automation.</p>
+                                <p>Maintained multiple open-source projects and technical guides on GitHub and GitHub Pages, designed to help new developers learn web development, security and cloud automation.</p>
                             </div>
                         </div>
                     </div>
@@ -1016,7 +1016,7 @@
                             </div>
                         </div>
                     </div>
-					
+
 					<div class="experience-entry" data-aos="fade-up" data-aos-delay="700">
                         <div class="experience-left">
                             <h4 class="title">CTF Competition</h4>
@@ -1030,13 +1030,11 @@
                                 <div class="vertical-line"></div>
                             </div>
                             <div class="experience-description-card">
-                                <p class="mb-2"><strong>Goal:</strong> Gain access to a target server, find & delete a hidden flag.</p>
-                                <p class="mb-2"><strong>Tools Used:</strong> Nmap, Metasploit, Wireshark, Linux Privilege Escalation.</p>
-                                <p><strong>Skills Demonstrated:</strong> CLI-based penetration testing, fast & accurate exploitation.</p>
+                                <p class="mb-2">Gain access to a target server, find & delete a hidden flag. CLI-based penetration testing, fast & accurate exploitation.</p>
                             </div>
                         </div>
                     </div>
-					
+
                     <div class="experience-entry" data-aos="fade-up" data-aos-delay="600">
                         <div class="experience-left">
                             <h4 class="title">IP Awareness/Training Program</h4>
@@ -1103,7 +1101,7 @@
                         </div>
                         <h3 class="strength-title">Collaboration & Leadership</h3>
                         <ul class="strength-list">
-                            <li><span class="bullet-point"></span>Organizing projects, hackathons, and tech discussions.</li>
+                            <li><span class="bullet-point"></span>Organizing projects, hackathons and tech discussions.</li>
                             <li><span class="bullet-point"></span>Working effectively in fast-paced environments.</li>
                             <li><span class="bullet-point"></span>Mentoring and sharing knowledge with peers.</li>
                         </ul>
@@ -1132,7 +1130,7 @@
                             <li><span class="bullet-point"></span>Marathi (Native)</li>
                         </ul>
                     </div>
-					
+
 					<div class="strength-card" data-aos="fade-up" data-aos-delay="500">
                         <div class="strength-icon-wrapper">
                             <i data-lucide="shield-half" class="w-8 h-8 text-indigo-400"></i>
@@ -1142,7 +1140,7 @@
                             <p>Led security research on network vulnerabilities and ethical hacking techniques. Contributed to developing open-source security tools and automating reconnaissance scripts.</p>
                         </ul>
                     </div>
-                    
+
 					<div class="strength-card" data-aos="fade-up" data-aos-delay="600">
                         <div class="strength-icon-wrapper">
                             <i data-lucide="sparkles" class="w-8 h-8 text-rose-400"></i>
